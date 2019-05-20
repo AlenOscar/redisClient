@@ -27,10 +27,8 @@ type redisPool struct {
 var RedisCli *redisPool // redis client
 
 func init() {
-	if RedisCli == nil {
-		RedisCli = &redisPool{
-			pool: createRedisPool(RedisURL),
-		}
+	RedisCli = &redisPool{
+		pool: createRedisPool(RedisURL),
 	}
 }
 
@@ -254,7 +252,7 @@ func (cli *redisPool) GetHashAll(key string) (map[string][]byte, error) {
 	}
 
 	results := make(map[string][]byte)
-	for i := 0; i + 1 < len(fieldValues); i = i+2 {
+	for i := 0; i+1 < len(fieldValues); i = i + 2 {
 		field, fok := fieldValues[i].([]byte)
 		value, vok := fieldValues[i+1].([]byte)
 		if fok && vok {
