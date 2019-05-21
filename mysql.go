@@ -260,3 +260,4 @@ func (w *DbWorker) Query(gid uint64) {
 	end = time.Now()
 	fmt.Println("方式3 query total time:", end.Sub(start).Seconds())
 }
+
