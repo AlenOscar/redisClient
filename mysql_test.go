@@ -5,14 +5,14 @@
 package models
 
 import (
-	"testing"
-	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"database/sql"
 	"encoding/json"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"testing"
 )
 
-func checkErr(err error){
+func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
@@ -40,9 +40,9 @@ func TestProcedure(t *testing.T) {
 	checkErr(err)
 
 	type mailData struct {
-		Item uint32 `json:"item"`
+		Item  uint32 `json:"item"`
 		Count uint32 `json:"count"`
-		Desc string `json:"desc"`
+		Desc  string `json:"desc"`
 	}
 
 	tx, e := db.Begin()
@@ -52,9 +52,9 @@ func TestProcedure(t *testing.T) {
 	defer tx.Commit()
 
 	data := mailData{
-		Item: uint32(1000),
+		Item:  uint32(1000),
 		Count: uint32(200),
-		Desc: string("奖励邮件，请查收！"),
+		Desc:  string("奖励邮件，请查收！"),
 	}
 	for i := 1; i <= 1000; i++ {
 		jsonData, err := json.Marshal(data)
@@ -67,11 +67,11 @@ func TestProcedure(t *testing.T) {
 	rows, _ := tx.Query(fmt.Sprintf("CALL get_mail('%d','%d')", 0, 10))
 	defer rows.Close()
 	for rows.Next() {
-		var gid, rolegid uint64
+		var gid, roleGid uint64
 		var blobData string
-		rows.Scan(&gid, &rolegid, &blobData)
+		rows.Scan(&gid, &roleGid, &blobData)
 		t.Log(gid)
-		t.Log(rolegid)
+		t.Log(roleGid)
 
 		var dataS mailData
 		checkErr(json.Unmarshal([]byte(blobData), &dataS))
